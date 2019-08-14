@@ -1,11 +1,11 @@
 import React from "react";
 
 const BotCard = props => {
-  const { bot } = props;
+  const {id, name, health, damage, armor, bot_class, catchphrase, avatar_url, inArmy, isClicked} = props.bot;
 
   let botType;
 
-  switch (bot.bot_class) {
+  switch (bot_class) {
     case "Assault":
       botType = <i className="icon military" />;
       break;
@@ -23,34 +23,38 @@ const BotCard = props => {
     <div className="ui column">
       <div
         className="ui card"
-        key={bot.id}
-        onClick={() => console.log("add code to connect event listener")}
+        key={id}
+      
       >
         <div className="image">
-          <img alt="oh no!" src={bot.avatar_url} />
+          <img alt="oh no!" src={avatar_url} />
         </div>
         <div className="content">
           <div className="header">
-            {bot.name} {botType}
+            {name} {botType}
           </div>
 
           <div className="meta text-wrap">
-            <small>{bot.catchphrase}</small>
+            <small>{catchphrase}</small>
           </div>
         </div>
         <div className="extra content">
           <span>
             <i className="icon heartbeat" />
-            {bot.health}
+            {health}
           </span>
 
           <span>
             <i className="icon lightning" />
-            {bot.damage}
+            {damage}
           </span>
           <span>
             <i className="icon shield" />
-            {bot.armor}
+            {armor}
+          </span>
+          <span>
+            <button id={id} onClick={e => props.handleBotRecruit(e.target.id)}>{(inArmy) ? "Discharge Bot" : "Recruit Bot"}</button>
+            <button id ={id} onClick={e => props.handleBotClick(e.target.id)}>See More</button>
           </span>
         </div>
       </div>
