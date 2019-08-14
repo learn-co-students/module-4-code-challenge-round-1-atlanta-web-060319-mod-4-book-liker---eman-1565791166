@@ -24,10 +24,10 @@ const BotCard = props => {
       <div
         className="ui card"
         key={bot.id}
-        onClick={() => console.log("add code to connect event listener")}
+        onClick={(props.removeBotFromArmy)}
       >
         <div className="image">
-          <img alt="oh no!" src={bot.avatar_url} />
+          <img alt="oh no!" src={bot.avatar_url} onClick={props.addBotToArmy} id={bot.id}/>
         </div>
         <div className="content">
           <div className="header">
