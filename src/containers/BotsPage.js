@@ -1,6 +1,7 @@
 import React from "react";
 import BotCollection from './BotCollection'
 import YourBotArmy from './YourBotArmy'
+import BotSpecs from '../components/BotSpecs'
 
 const URL = 'https://bot-battler-api.herokuapp.com/api/v1/bots/'
 
@@ -9,7 +10,9 @@ class BotsPage extends React.Component {
     super()
     this.state = {
       bots: [],
-      myBotArmy: []
+      myBotArmy: [],
+      specPage: false,
+      specBot: []
     }
   }
 
@@ -33,11 +36,26 @@ class BotsPage extends React.Component {
     }
   }
 
+  showSpecs = (chosenBot) => {
+    console.log("inside showSpecPage", chosenBot)
+    this.setState({specPage: true}, () => {this.renderBotSpecs(chosenBot)})
+  }
+
+  renderBotSpecs = (chosenBot) => {
+    console.log("inside renderBotSpecs", chosenBot)
+    this.setState({specBot: chosenBot})
+  }
+
+  hideSpecs = () => {
+    this.setState({specPage: !this.state.specPage})
+  }
+
   render() {
     return (
       <div>
         <YourBotArmy assignBot={this.assignBot} myBotArmy={this.state.myBotArmy}/>
-        <BotCollection assignBot={this.assignBot} bots={this.state.bots}/>
+        {this.state.specPage ? <BotSpecs hideSpecs={this.hideSpecs} assignBot={this.assignBot} bot={this.state.specBot}/> : null}
+        <BotCollection showSpecs={this.showSpecs} assignBot={this.assignBot} bots={this.state.bots}/>
       </div>
     );
   }
