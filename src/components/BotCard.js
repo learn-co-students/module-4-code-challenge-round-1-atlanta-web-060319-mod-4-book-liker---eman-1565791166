@@ -54,7 +54,7 @@ const BotCard = props => {
           </span>
           <span>
             <button id={id} onClick={e => props.handleBotRecruit(e.target.id)}>{(inArmy) ? "Discharge Bot" : "Recruit Bot"}</button>
-            <button>See More</button>
+            <button id ={id} onClick={e => props.handleBotClick(e.target.id)}>See More</button>
           </span>
         </div>
       </div>

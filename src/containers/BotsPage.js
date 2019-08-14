@@ -33,14 +33,18 @@ class BotsPage extends React.Component {
 
 
   handleBotClick = (botId) => {
-    if (this.state.currentBot === []){
-    let currentBot = this.state.bots.find(bot => {
-      return bot.id === parseInt(botId)
-    })
+    let array = []
+    if (this.state.currentBot.length < 1){
+    
+    let currentBot = this.state.bots.find(bot => bot.id === parseInt(botId, 10))
+    
+    array.push(currentBot)
+
     this.setState({
-      currentBot: this.state.currentBot.push(currentBot)
+      currentBot: array
     })
-  } else if(this.state.currentBot !== []){
+    
+  } else if(this.state.currentBot.length === 1){
     let emptyArray = []
     this.setState({
       currentBot: emptyArray
@@ -72,7 +76,7 @@ class BotsPage extends React.Component {
       <div>
       <YourBotArmy bots={this.state.bots}  handleBotRecruit={this.handleBotRecruit}/>
 
-      {(this.state.currentBot.length < 1) ? <BotSpecs bot={this.state.currentBot} handleBotClick={this.handleBotClick} handleBotRecruit={this.handleBotRecruit}/> : <BotCollection bots={this.state.bots} handleBotClick={this.handleBotClick} handleBotRecruit={this.handleBotRecruit}/>}
+      {(this.state.currentBot.length < 1) ? <BotCollection bots={this.state.bots} handleBotClick={this.handleBotClick} handleBotRecruit={this.handleBotRecruit}/> : <BotSpecs bot={this.state.currentBot[0]} handleBotClick={this.handleBotClick}/> }
       </div>
     );
   }
