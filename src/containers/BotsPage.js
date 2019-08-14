@@ -1,6 +1,7 @@
 import React from "react";
 import BotCollection from "./BotCollection";
 import YourBotArmy from "./YourBotArmy";
+import BotSpecs from "../components/BotSpecs"
 
 const API = "https://bot-battler-api.herokuapp.com/api/v1/bots"
 class BotsPage extends React.Component {
@@ -8,7 +9,10 @@ class BotsPage extends React.Component {
    super()
    this.state = {
      bots: [],
-     userArmy: []
+     userArmy: [],
+     oneBot: [],
+     showBot: true, 
+     showAllBots: true
    }
  }
 
@@ -23,28 +27,32 @@ class BotsPage extends React.Component {
   })
  }
 
- addBotToArmy = (e) => {
-  const id = Number(e.target.id)
-  const army = this.state.bots.map(bot => {
-    if(bot.id === id){
-      bot.inArmy = true
+ showBotSpecs = (bot) => {
+   this.setState({showBot: false})
+   this.setState({oneBot: bot})
+  
+ }
+
+ addBotToArmy = (bot) => {
+  //  console.log(bot, 'addBot')
+    const id = bot.id
+    const army = this.state.bots.map(bot => {
+      if(bot.id === id){
+        bot.inArmy = true
+        return bot
+      } else 
       return bot
-    } else 
-    return bot
-  })
-  this.setState({ userArmy: army})
- }
+    })
+    this.setState({ userArmy: army})
+   }
 
- userBotArmy(){
-   return this.state.userArmy.filter(bot => bot.inArmy)
- }
-
- removeBotFromArmy = (e) => {
+    removeBotFromArmy = (e) => {
    const id = Number(e.target.id)
    this.state.userArmy.map(bot => {
      if(bot.id === id){
        const botIdx = this.state.userArmy.indexOf(bot)
        this.state.userArmy.splice(botIdx, 1)
+       bot.inArmy = false
        this.setState({userArmy: this.state.userArmy})
        return this.state.userArmy
      } else 
@@ -52,15 +60,36 @@ class BotsPage extends React.Component {
    })
  }
 
-  render() {
-    return (
-      <div>
-        {<YourBotArmy removeBotFromArmy={this.removeBotFromArmy} botArmy={this.userBotArmy()}/>}
-        {<BotCollection addBotToArmy={this.addBotToArmy} bots={this.state.bots}/>}
-      </div>
-    );
-  }
+    userBotArmy(){
+   return this.state.userArmy.filter(bot => bot.inArmy)
+ }
 
+ callAllBots = (e) => {
+   this.setState({ showBot: true})
+ }
+
+ render() {
+  return (
+    <div>
+      {/* {<YourBotArmy  />} */}
+      {<YourBotArmy removeBotFromArmy={this.removeBotFromArmy} botArmy={this.userBotArmy()}/>}
+      {this.state.showBot ? <BotCollection showBotSpecs={this.showBotSpecs} bots={this.state.bots}/> : 
+      <BotSpecs callAllBots={this.callAllBots} addBotToArmy={this.addBotToArmy} bot={this.state.oneBot}/>}
+      {/* {this.callAllBots ? <BotCollection showBotSpecs={this.showBotSpecs} bots={this.state.bots}/> : null } */}
+
+
+    </div>
+  );
+}
+
+
+// 
+
+
+
+
+
+  
 }
 
 export default BotsPage;
