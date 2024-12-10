@@ -60,18 +60,16 @@ const BotSpecs = props => {
             </div>
             <button
               className="ui button fluid"
-              onClick={() =>
-                console.log('connect this to a function that shows all bots')
+              onClick={props.callAllBots
+                
               }
             >
               Go Back
             </button>
             <button
-              className="ui button fluid"
-              onClick={() =>
-                console.log(
-                  "connect this to a function that adds this bot to your bot army list"
-                )
+              className="ui button fluid" id={bot.id}
+              onClick={(e) =>
+                props.addBotToArmy(bot)
               }
             >
               Enlist
